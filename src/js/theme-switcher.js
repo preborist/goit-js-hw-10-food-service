@@ -2,17 +2,17 @@ const checkboxRef = document.querySelector('#theme-switch-toggle');
 const bodyRef = document.querySelector('body');
 
 const Theme = {
-  LIGHT: 'light-theme',
-  DARK: 'dark-theme',
+  light: 'light-theme',
+  dark: 'dark-theme',
 };
 savedThemeSetings();
 checkboxRef.addEventListener('change', themeSwitcher);
 
 function themeSwitcher(event) {
   if (event.target.checked) {
-    darkTheme();
+    themeStyle('dark', 'light');
   } else {
-    lightTheme();
+    themeStyle('light', 'dark');
   }
 }
 
@@ -20,20 +20,14 @@ function savedThemeSetings() {
   const theme = localStorage.getItem('theme');
   if (theme === 'dark') {
     checkboxRef.setAttribute('checked', true);
-    darkTheme();
+    themeStyle('dark', 'light');
   } else if (theme === 'light') {
-    lightTheme();
+    themeStyle('light', 'dark');
   }
 }
 
-function darkTheme() {
-  localStorage.setItem('theme', 'dark');
-  bodyRef.classList.add(Theme.DARK);
-  bodyRef.classList.remove(Theme.LIGHT);
-}
-
-function lightTheme() {
-  localStorage.setItem('theme', 'light');
-  bodyRef.classList.remove(Theme.DARK);
-  bodyRef.classList.add(Theme.LIGHT);
+function themeStyle(colorSet, colorRemove) {
+  localStorage.setItem('theme', colorSet);
+  bodyRef.classList.add(Theme[colorSet]);
+  bodyRef.classList.remove(Theme[colorRemove]);
 }
